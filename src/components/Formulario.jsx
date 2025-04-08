@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import getData from '../services/ubicacion';
 import Modal from './ModalVentana';
+import oficina from '../assets/oficina.JPG';
 
 function validate(input) {
     let errors = {};
@@ -109,79 +110,94 @@ export function Formulario() {
     };
 
     return (
-        <section>
-            <h1 className="m-4">Formulario de contacto</h1>
+        <section className="container mt-5">
 
-            <form className="form-select flex m-2 flex-col" onSubmit={handleSubmit}>
-                <select name="pais" value={country} onChange={handleCountryChange} className="w-full p-2 m-2 border rounded">
-                    <option value="--País--">--País--</option>
-                    {countries.map((c) => (
-                        <option key={c.name} value={c.name}>{c.name}</option>
-                    ))}
-                </select>
+            <div className="row align-items-center">
+               
+                <div className="col-md-6 order-md-1 order-1">
+                    <h1 className="mb-4">Formulario de contacto</h1>
+                    <form onSubmit={handleSubmit}>
+                        <select name="pais" value={country} onChange={handleCountryChange} className="form-select mb-3">
+                            <option value="--País--">--País--</option>
+                            {countries.map((c) => (
+                                <option key={c.name} value={c.name}>{c.name}</option>
+                            ))}
+                        </select>
 
-                <select name="provincia" value={province} onChange={handleProvinceChange} className="w-full p-2 m-2 border rounded" disabled={country === '--País--'}>
-                    <option value="--Provincia--">--Provincia--</option>
-                    {provincias.map((p) => (
-                        <option key={p.name} value={p.name}>{p.name}</option>
-                    ))}
-                </select>
+                        <select name="provincia" value={province} onChange={handleProvinceChange} className="form-select mb-3" disabled={country === '--País--'}>
+                            <option value="--Provincia--">--Provincia--</option>
+                            {provincias.map((p) => (
+                                <option key={p.name} value={p.name}>{p.name}</option>
+                            ))}
+                        </select>
 
-                <select name="ciudad" value={city} onChange={handleCityChange} className="w-full p-2 m-2 border rounded" disabled={province === '--Provincia--'}>
-                    <option value="--Ciudad--">--Ciudad--</option>
-                    {ciudades.map((c) => (
-                        <option key={c} value={c}>{c}</option>
-                    ))}
-                </select>
+                        <select name="ciudad" value={city} onChange={handleCityChange} className="form-select mb-3" disabled={province === '--Provincia--'}>
+                            <option value="--Ciudad--">--Ciudad--</option>
+                            {ciudades.map((c) => (
+                                <option key={c} value={c}>{c}</option>
+                            ))}
+                        </select>
 
-                <div className="col-auto m-2">
-                    <input
-                        className="form-control form-control-lg"
-                        type="text"
-                        name="nombre"
-                        id="name"
-                        placeholder="Ingrese su nombre completo"
-                        value={input.nombre}
-                        onChange={handleChange}
-                    />
-                    {errors.name && <p className="text-danger-emphasis text-sm">{errors.name}</p>}
+                        <input
+                            className="form-control mb-3"
+                            type="text"
+                            name="nombre"
+                            id="name"
+                            placeholder="Ingrese su nombre completo"
+                            value={input.nombre}
+                            onChange={handleChange}
+                        />
+                        {errors.name && <p className="text-danger small">{errors.name}</p>}
 
-                    <input
-                        className="form-control form-control-lg mt-2"
-                        type="email"
-                        name="email"
-                        id="email"
-                        placeholder="Ingrese su E-mail"
-                        value={input.email}
-                        onChange={handleChange}
-                    />
-                    {errors.email && <p className="text-danger-emphasis text-sm">{errors.email}</p>}
+                        <input
+                            className="form-control mb-3"
+                            type="email"
+                            name="email"
+                            id="email"
+                            placeholder="Ingrese su E-mail"
+                            value={input.email}
+                            onChange={handleChange}
+                        />
+                        {errors.email && <p className="text-danger small">{errors.email}</p>}
 
-                    <textarea
-                        className="form-control form-control-lg mt-2"
-                        name="direccion"
-                        id="address"
-                        placeholder="Dirección (opcional)"
-                        value={input.direccion}
-                        onChange={handleChange}
-                    />
+                        <textarea
+                            className="form-control mb-3"
+                            name="direccion"
+                            id="address"
+                            placeholder="Dirección (opcional)"
+                            value={input.direccion}
+                            onChange={handleChange}
+                        />
+
+                        <div className="d-flex justify-content-between">
+                            <button type="submit" className="btn btn-primary">Guardar</button>
+                            <button type="button" onClick={resetForm} className="btn btn-danger">Cancelar</button>
+                        </div>
+                    </form>
+
+                    {mostrarModal && (
+                        <Modal
+                            datos={input}
+                            onClose={() => setMostrarModal(false)}
+                            onConfirm={() => {
+                                alert('Formulario enviado correctamente ✅');
+                                resetForm();
+                                setMostrarModal(false);
+                            }}
+                        />
+                    )}
                 </div>
 
-                <button type="submit" className="btn btn-primary m-3">Guardar</button>
-                <button onClick={resetForm} className="btn btn-danger m-3">Cancelar</button>
-
-                {mostrarModal && (
-                    <Modal
-                        datos={input}
-                        onClose={() => setMostrarModal(false)}
-                        onConfirm={() => {
-                            alert('Formulario enviado correctamente ✅');
-                            resetForm();
-                            setMostrarModal(false);
-                        }}
+                <div className="col-md-4 text-center order-md-2 order-2">
+                    <img
+                        src={oficina}
+                        alt="oficina"
+                        className="img-fluid rounded w-60"
+                        style={{ maxWidth: '400px' }}
                     />
-                )}
-            </form>
+                </div>
+            </div>
         </section>
+
     );
 }
