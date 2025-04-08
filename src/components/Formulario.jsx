@@ -7,11 +7,11 @@ function validate(input) {
     let errors = {};
     let mail = /^[a-z\.\_\-0-9]{1,20}@[a-z]{1,16}\.[a-z\.]{1,12}$/i;
 
-    if (!input.nombre) {
+    if (!input.nombre.trim()) {
         errors.name = 'Se requiere un nombre obligatorio';
     }
 
-    if (!mail.test(input.email)) {
+    if (!mail.test(input.email.trim())) {
         errors.email = 'Ingrese correo electrónico con formato válido';
     }
 

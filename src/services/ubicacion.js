@@ -1,5 +1,6 @@
 export default function getData() {
     const countries = [
+        // eslint-disable-next-line
         {
             name: "Argentina",
             provinces: [
